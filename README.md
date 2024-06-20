@@ -100,6 +100,7 @@ php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
-Ceci conclut la procédure d'installation et de configuration de base pour le projet. Pour toute question ou assistance supplémentaire, n'hésitez pas à consulter la documentation officielle de Laravel et Vue.js ou à contacter l'équipe de développement.
+
+Ceci conclut la procédure d'installation et de configuration de base pour le projet. Pour toute question ou assistance supplémentaire, n'hésitez pas à consulter la documentation officielle de Laravel et Vue.js ou à me contacter.
 
 Ce guide devrait vous aider à bien démarrer avec votre projet. Pour toute question ou suggestion pour améliorer ce guide, n'hésitez pas à les partager ! 😊
