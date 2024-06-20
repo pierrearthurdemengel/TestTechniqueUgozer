@@ -17,7 +17,11 @@
         <textarea v-model="content" class="form-control border-2 border-gray-200 p-2 w-full rounded-md focus:ring focus:ring-blue-200 focus:outline-none transition-shadow duration-300" required></textarea>
       </div>
       <div class="mb-6">
-        <label class="block text-gray-700 font-medium mb-2">Image</label>
+        <label class="block text-gray-700 font-medium mb-2">Image actuelle</label>
+        <div v-if="currentImage" class="mb-4">
+          <img :src="`/storage/${currentImage}`" alt="Image actuelle" class="w-64 h-64 object-cover mb-2">
+        </div>
+        <label class="block text-gray-700 font-medium mb-2">Nouvelle image (facultatif)</label>
         <input type="file" @change="handleFileUpload" class="form-control border-2 border-gray-200 p-2 w-full rounded-md focus:ring focus:ring-blue-200 focus:outline-none transition-shadow duration-300">
       </div>
       <div class="mb-6">
@@ -51,6 +55,7 @@ export default {
     const content = ref('');
     const published = ref(false);
     const image = ref(null);
+    const currentImage = ref('');
 
     const fetchArticle = async () => {
       try {
@@ -59,6 +64,7 @@ export default {
         category.value = response.data.category;
         content.value = response.data.content;
         published.value = response.data.published;
+        currentImage.value = response.data.image_path;
         console.log('Fetched article data:', response.data);
       } catch (error) {
         console.error('Erreur lors de la récupération de l\'article :', error);
@@ -110,6 +116,7 @@ export default {
       content,
       published,
       image,
+      currentImage,
       updateArticle,
       handleFileUpload
     };
