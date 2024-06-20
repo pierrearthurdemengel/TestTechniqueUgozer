@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('content');
             $table->string('category');
             $table->string('image_path')->nullable();
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }

@@ -1,13 +1,16 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 animate-fade-in">
-    <div class="text-center p-6 bg-white shadow-xl rounded-lg transform hover:scale-105 transition-transform duration-500 hover:shadow-2xl">
-      <h1 class="text-5xl font-extrabold text-blue-600 animate-slide-in mb-4">
+    <div class="text-center p-6 bg-white shadow-xl rounded-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-2xl">
+      <h1 class="text-5xl font-extrabold text-blue-600 animate-fade-down mb-4">
         Bienvenue sur mon Blog
       </h1>
-      <p class="mt-4 text-xl text-gray-700 animate-fade-in-delayed">
+      <p class="mt-4 text-xl text-gray-700 animate-fade-down-delayed">
         Découvrez les derniers articles et mises à jour.
       </p>
-      <router-link to="/articles" class="mt-8 inline-block px-8 py-3 text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-full hover:from-blue-700 hover:to-blue-900 transition duration-300 transform hover:scale-110 shadow-lg">
+      <router-link 
+        to="/articles" 
+        class="mt-8 inline-block px-8 py-3 text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-full hover:from-blue-700 hover:to-blue-900 transition duration-300 transform hover:scale-110 shadow-lg animate-bounce-down"
+      >
         Voir les Articles
       </router-link>
     </div>
@@ -21,8 +24,8 @@ export default {
 </script>
 
 <style scoped>
-/* Animation Fade-in */
-@keyframes fade-in {
+/* Animation Fade-down */
+@keyframes fade-down {
   from {
     opacity: 0;
     transform: translateY(-20px);
@@ -33,10 +36,10 @@ export default {
   }
 }
 
-@keyframes fade-in-delayed {
+@keyframes fade-down-delayed {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-30px);
   }
   to {
     opacity: 1;
@@ -44,31 +47,28 @@ export default {
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
-}
-
-.animate-fade-in-delayed {
-  animation: fade-in-delayed 1.5s ease-out forwards;
-}
-
-/* Animation Slide-in */
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
+@keyframes bounce-down {
+  0%, 100% {
+    transform: translateY(0);
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  50% {
+    transform: translateY(5px);
   }
 }
 
-.animate-slide-in {
-  animation: slide-in 1s ease-out forwards;
+.animate-fade-down {
+  animation: fade-down 1s ease-out forwards;
 }
 
-/* Styles pour le bouton */
+.animate-fade-down-delayed {
+  animation: fade-down-delayed 1.5s ease-out forwards;
+}
+
+.animate-bounce-down {
+  animation: bounce-down 2s infinite;
+}
+
+/* Styles pour le bouton et les autres éléments */
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -106,5 +106,9 @@ export default {
 
 .shadow-2xl {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
 }
 </style>

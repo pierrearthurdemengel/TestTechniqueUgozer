@@ -14,6 +14,16 @@
         </div>
       </li>
     </ul>
+    <!-- Pagination Controls -->
+    <div class="pagination mt-8 flex justify-center items-center space-x-4">
+      <button @click="prevPage" :disabled="!pagination.prev_page_url" class="btn px-4 py-2 bg-blue-500 text-white rounded-md">
+        Précédent
+      </button>
+      <span class="text-gray-700">Page {{ pagination.current_page }} sur {{ pagination.last_page }}</span>
+      <button @click="nextPage" :disabled="!pagination.next_page_url" class="btn px-4 py-2 bg-blue-500 text-white rounded-md">
+        Suivant
+      </button>
+    </div>
   </div>
 </template>
 
@@ -26,14 +36,31 @@ export default {
   name: 'ArticleList',
   setup() {
     const articles = ref([]);
+    const pagination = ref({});
+    const currentPage = ref(1);
     const router = useRouter();
 
-    const fetchArticles = async () => {
+    const fetchArticles = async (page = 1) => {
       try {
-        const response = await axios.get('/api/articles');
-        articles.value = response.data.data; // Notez l'accès au tableau d'articles
+        const response = await axios.get(`/api/articles?page=${page}`);
+        articles.value = response.data.data;
+        pagination.value = response.data;
       } catch (error) {
-        console.error('Error fetching articles:', error);
+        console.error('Erreur lors de la récupération des articles :', error);
+      }
+    };
+
+    const prevPage = () => {
+      if (pagination.value.prev_page_url) {
+        currentPage.value--;
+        fetchArticles(currentPage.value);
+      }
+    };
+
+    const nextPage = () => {
+      if (pagination.value.next_page_url) {
+        currentPage.value++;
+        fetchArticles(currentPage.value);
       }
     };
 
@@ -43,7 +70,7 @@ export default {
           await axios.delete(`/api/articles/${id}`);
           articles.value = articles.value.filter(article => article.id !== id);
         } catch (error) {
-          console.error('Error deleting article:', error);
+          console.error('Erreur lors de la suppression de l\'article :', error);
         }
       }
     };
@@ -52,9 +79,9 @@ export default {
       return text.length > length ? text.substring(0, length) + '...' : text;
     };
 
-    onMounted(fetchArticles);
+    onMounted(() => fetchArticles(currentPage.value));
 
-    return { articles, deleteArticle, truncate };
+    return { articles, pagination, prevPage, nextPage, deleteArticle, truncate };
   }
 };
 </script>
