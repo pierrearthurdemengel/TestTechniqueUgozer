@@ -27,8 +27,8 @@ Suivez les étapes ci-dessous pour installer le projet sur votre machine locale.
 
 1. Cloner le dépôt
 Clonez le dépôt GitHub sur votre machine locale en utilisant la commande suivante :
-git clone https://github.com/nom-utilisateur/nom-du-projet.git
-cd nom-du-projet
+git clone https://github.com/pierrearthurdemengel/TestTechniqueUgozer.git
+cd TestTechniqueUgozer
 
 2. Installer les dépendances
 Installez les dépendances PHP avec Composer :
@@ -67,7 +67,7 @@ php artisan migrate
 
 2. Exécuter les seeds
 Les seeds peuplent la base de données avec des données initiales. Exécutez les commandes suivantes pour exécuter les seeds :
-php artisan db:seed
+php artisan db:seed --class=ArticlesTableSeeder
 
 
 💻 Lancement du Serveur
