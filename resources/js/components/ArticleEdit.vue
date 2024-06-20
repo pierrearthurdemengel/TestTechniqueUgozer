@@ -6,19 +6,19 @@
     <form @submit.prevent="updateArticle">
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Titre</label>
-        <input type="text" v-model="title" class="form-input mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm transition-shadow duration-300" required>
+        <input type="text" v-model="title" class="form-control border-2 border-gray-200 p-2 w-full" required>
       </div>
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Catégorie</label>
-        <input type="text" v-model="category" class="form-input mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm transition-shadow duration-300" required>
+        <input type="text" v-model="category" class="form-control border-2 border-gray-200 p-2 w-full" required>
       </div>
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Contenu</label>
-        <textarea v-model="content" class="form-textarea mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm transition-shadow duration-300" required></textarea>
+        <textarea v-model="content" class="form-control border-2 border-gray-200 p-2 w-full" required></textarea>
       </div>
       <div class="mb-6">
         <label class="block text-gray-700 font-medium mb-2">Image</label>
-        <input type="file" @change="handleFileUpload" class="form-input mt-1 block w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm transition-shadow duration-300">
+        <input type="file" @change="handleFileUpload" class="form-control border-2 border-gray-200 p-2 w-full" accept=".jpeg,.jpg,.png,.gif,.svg, .webp">
       </div>
       <button type="submit" class="btn btn-primary bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out transform hover:-translate-y-1">
         Mettre à jour
@@ -55,33 +55,35 @@ export default {
     };
 
     const updateArticle = async () => {
-      const formData = new FormData();
-      formData.append('title', title.value);
-      formData.append('category', category.value);
-      formData.append('content', content.value);
-      if (image.value) {
-        formData.append('image', image.value);
-      }
+    const formData = new FormData();
+    formData.append('title', title.value);
+    formData.append('category', category.value);
+    formData.append('content', content.value);
+    if (image.value) {
+      formData.append('image', image.value);
+    }
+    formData.append('_method', 'PATCH');
 
-      console.log('Sending update request with data:', {
-        title: title.value,
-        category: category.value,
-        content: content.value,
-        image: image.value,
+    console.log('Sending update request with data:', {
+      title: title.value,
+      category: category.value,
+      content: content.value,
+      image: image.value,
+    });
+
+    try {
+      const response = await axios.post(`/api/articles/${route.params.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
+      console.log('Update successful:', response.data);
+      router.push('/articles');
+    } catch (error) {
+      console.error('Error updating article:', error.response ? error.response.data : error);
+    }
+  };
 
-      try {
-        const response = await axios.patch(`/api/articles/${route.params.id}`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        console.log('Update successful:', response.data);
-        router.push('/articles');
-      } catch (error) {
-        console.error('Error updating article:', error.response ? error.response.data : error);
-      }
-    };
 
     const handleFileUpload = (event) => {
       image.value = event.target.files[0];
@@ -108,48 +110,27 @@ export default {
   border-radius: 10px;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   padding: 2rem;
-  transition: transform 0.5s ease;
 }
 
-.container:hover {
-  transform: scale(1.02);
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
 }
 
-.form-input, .form-textarea {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+.form-control:focus {
+  border-color: #4299e1;
 }
 
-.form-input:focus, .form-textarea:focus {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+button {
+  padding: 0.75rem 1.5rem;
+  color: #fff;
+  background-color: #3182ce;
+  border-radius: 0.375rem;
 }
 
-.btn {
-  padding: 10px 20px;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: #2779bd;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+button:hover {
+  background-color: #2b6cb0;
 }
 </style>
