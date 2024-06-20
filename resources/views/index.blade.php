@@ -1,11 +1,10 @@
-<!-- resources/views/index.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Application</title>
+    <title>Mon Blog pour UgoZER</title>
+    <link rel="icon" href="{{ asset('storage/images/ugozer_logo.jfif') }}" type="image/jfif">
     @vite('resources/css/app.css')
 </head>
 <body>
